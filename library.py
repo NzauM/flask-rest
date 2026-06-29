@@ -1,7 +1,9 @@
 from flask import Blueprint,jsonify,request
+from flask_restful import Api,Resource
 
 
 library_bp = Blueprint('library_bp',__name__)
+library_api = Api(library_bp)
 
 
 class Book:
@@ -57,4 +59,17 @@ def create_book():
     return jsonify(new_book.to_dict()),201
 
 
+class AuthorResource(Resource):
+    def get(self):
+        author_list = [author.__dict__ for author in authors]
+        return author_list
+    
+    def post(self):
+        author_data = request.json
+        new_author = Author(id=len(authors)+1, name=author_data['name'])
+        authors.append(new_author)
+        return new_author.__dict__, 201
 
+    pass
+
+library_api.add_resource(AuthorResource,'/authors')

@@ -6,7 +6,6 @@ from library import library_bp
 app = Flask(__name__)
 app.register_blueprint(library_bp,url_prefix='/library')
 
-# g.app_name = "Thermos"
 
 @app.route('/home')
 def home():
